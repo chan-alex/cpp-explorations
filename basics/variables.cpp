@@ -44,6 +44,41 @@ int main() {
   //int i6 = {3.14}; will prevent the above from compiling.
   std::cout << "i6 = " << i6 << std::endl;
 
+
+
+  // Scoping starts and ends within braces {};
+  const int s1 = 10;
+  std::cout << "s1 = " << s1 << std::endl;
+
+    { // with the braces this won't compile
+      const int s1 = 20;
+      std::cout << "From a diffferent scope, s1 = " << s1 << std::endl;
+    }
+
+  // Similarily variable declared inside a different scope is not visible from outside
+  // of it. The below won't compile:
+  //
+  // {
+  //   int local_i1 = 1;
+  // }
+  // 
+  //   std::cout << "local_i1 = " << local_i1 << std::endl;
+
+
+  // Hiding.  
+  int ns1 = 1;
+  {
+    ns1 = 5;
+    std::cout << "Inside of {}, ns1 = " << ns1 << std::endl;   
+
+    int  ns1 = 9; // this hides the outside ns1 variable
+    {
+      std::cout << "From 1st nested{}, ns1 = " << ns1 << std::endl;
+    }
+
+    std::cout << "Outside 1st nested{}, ns1 = " << ns1 << std::endl;  
+  }
+  std::cout << "Outside of {}, ns1 = " << ns1 << std::endl;
   
   return 0;
 }
