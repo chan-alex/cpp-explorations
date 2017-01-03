@@ -1,0 +1,55 @@
+
+
+Orthodox C++
+------------
+https://gist.github.com/bkaradzic/2e39896bc7d8c34e042b
+
+
+
+Hello world in this guideline
+-----------------------------
+
+#include <stdio.h>
+
+int main()
+{
+    printf("hello, world\n");
+    return 0;
+}
+
+
+
+Summary
+-----------
+
+C-like C++ is good start, if code doesn't require more complexity don't add unnecessary C++ complexities.
+In general case code should be readable to anyone who is familiar with C language.
+
+Don't use exceptions.
+
+Don't use RTTI.
+
+Don't use C++ runtime wrapper for C runtime includes (<cstdio>, <cmath>, etc.), use C runtime instead (<stdio.h>, <math.h>, etc.)
+
+Don't use stream (<iostream>, <stringstream>, etc.), use printf style functions instead.
+
+Don't use anything from STL that allocates memory, unless you don't care about memory management.
+
+Don't use metaprogramming excessively for academic masturbation. Use it in moderation, only where necessary, and where it reduces code complexity.
+
+
+
+
+Rationale
+---------
+
+Oryol author here. A lot of the motivation for using such a 'simple C++ style' comes from my own frustrating experience of integrating big C++ libraries (mainly game development middleware) into complex million-lines C++ game code bases, I didn't want to have this frustrating fight in my spare-time projects.
+The more language features and dependencies those game middleware libraries use, the harder they are to integrate and combine with each other. Some may require compiler options that contradict each other, or require a very recent compiler version, some do an absurd amount of dynamic memory allocations (which is easy when using the STL - ahem stdlib - carelessly), some may depend on exceptions, or on boost libraries etc...
+
+It was always the pure C projects, or the 'simple C++ style' projects that were easiest to integrate, while projects which used a boost-style 'over-engineering' approach caused a lot of little problems during integration and also afterwards (they are usually much harder to debug, take much longer to compile, and so on...).
+The only sensible thing for C++ libraries that aim to be easy to integrate is to avoid many of the typical 'modern and old C++-isms' outlined in the Orthodox C++ document (but nothing in there is particularly new or special or revolutionary, it's a collection of pragmatic advice learned the hard way, and should be fairly familiar in embedded and game development).
+
+The other big problem (besides integration) is that some C++ features (like iostreams or RTTI) increase code bloat, and basically violate the "don't pay for what you don't use" principle, or dramatically decrease performance on some platforms (mainly using C++ exceptions on asm.js). I have written a blog post a little while ago which goes more into the details,
+the TL;DR is basically that a 'simple C++ style' may help to reduce code bloat and increase performance: http://floooh.github.io/2016/08/27/asmjs-diet.html
+
+
